@@ -3,7 +3,7 @@ checkpoint_log <- function(log, snapshotDate, pkg, file = NULL){
     ptn <- "(Content type .* length )(\\d+).*"
     gsub(ptn, "\\2", log[grep(ptn, log)])
   }
-  
+
   extract_pkgs <- function(log){
     ptn <- "(also installing the dependencies )(.*).*"
     z <- gsub(ptn, "\\2", log[grep(ptn, log)])
@@ -12,7 +12,13 @@ checkpoint_log <- function(log, snapshotDate, pkg, file = NULL){
     strsplit(z, ", ")[[1]]
   }
   if(length(log) == 0) log <- "Mocking Content type 'application/zip' length 0 bytes (0 KB)"
-  
+
+  message("JACK")
+  print(length(Sys.time()))
+  print(length(snapshotDate))
+  print(length(c(extract_pkgs(log), pkg)))
+  print(length(extract_bytes(log)))
+
   z <- data.frame(
     timestamp = Sys.time(),
     snapshotDate = snapshotDate,
@@ -26,19 +32,19 @@ checkpoint_log <- function(log, snapshotDate, pkg, file = NULL){
   } else {
     if(!file.exists(file)){
       suppressWarnings(
-        write.table(z, file = file, 
-                    append = FALSE, 
-                    sep = ",", 
-                    row.names = FALSE, 
-                    col.names = TRUE) 
+        write.table(z, file = file,
+                    append = FALSE,
+                    sep = ",",
+                    row.names = FALSE,
+                    col.names = TRUE)
       )
     } else {
       suppressWarnings(
-        write.table(z, file = file, 
-                    append = TRUE, 
-                    sep = ",", 
-                    row.names = FALSE, 
-                    col.names = FALSE) 
+        write.table(z, file = file,
+                    append = TRUE,
+                    sep = ",",
+                    row.names = FALSE,
+                    col.names = FALSE)
       )
     }
   }
