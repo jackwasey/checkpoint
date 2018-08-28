@@ -218,6 +218,10 @@ checkpoint <- function(snapshotDate, project = getwd(),
       } else {
         mssg(verbose, " - Installing ", sQuote(pkg))
         mssg(verbose, pkg)
+        install.packages(pkgs = pkg, verbose = FALSE,
+                         quiet = FALSE,
+                         INSTALL_opts = "--no-lock")
+        message("jack: anda again")
         download_messages <- capture.output({
           install.packages(pkgs = pkg, verbose = FALSE,
                            quiet = FALSE,
